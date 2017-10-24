@@ -6,11 +6,11 @@ These instructions will get you a copy of the project up and running on your loc
 ## Prerequisites
 ### Installing
 Install the Express generator:
-  npm install express-generator@4 -g
+npm install express-generator@4 -g
 Create a new project and install required dependencies:
-  express node-postgres-promises
-  cd node-postgres-promises
-  npm install
+express node-postgres-promises
+cd node-postgres-promises
+npm install
 Test:
-  npm start
+npm start
 
