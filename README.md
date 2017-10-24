@@ -118,6 +118,114 @@ function getAllPuppies(req, res, next) {
     });
 }
 ```
+### Running:
+#### Get single puppy:
+
+```
+function getSinglePuppy(req, res, next) {
+  var pupID = parseInt(req.params.id);
+  db.one('select * from pups where id = $1', pupID)
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ONE puppy'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+```
+#### Post
+
+```
+function createPuppy(req, res, next) {
+  req.body.age = parseInt(req.body.age);
+  db.none('insert into pups(name, breed, age, sex)' +
+      'values(${name}, ${breed}, ${age}, ${sex})',
+    req.body)
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted one puppy'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+```
+#### Put
+
+```
+function updatePuppy(req, res, next) {
+  db.none('update pups set name=$1, breed=$2, age=$3, sex=$4 where id=$5',
+    [req.body.name, req.body.breed, parseInt(req.body.age),
+      req.body.sex, parseInt(req.params.id)])
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated puppy'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+```
+#### Delete
+
+```
+function removePuppy(req, res, next) {
+  var pupID = parseInt(req.params.id);
+  db.result('delete from pups where id = $1', pupID)
+    .then(function (result) {
+      /* jshint ignore:start */
+      res.status(200)
+        .json({
+          status: 'success',
+          message: `Removed ${result.rowCount} puppy`
+        });
+      /* jshint ignore:end */
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+```
+#### Error Handling
+
+Update the error handlers in app.js to serve up JSON
+
+```
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status( err.code || 500 )
+    .json({
+      status: 'error',
+      message: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500)
+  .json({
+    status: 'error',
+    message: err.message
+  });
+});
+```
 ## Built With
 
 This app was built using [Designing a RESTful API With Node and Postgres](http://mherman.org/blog/2016/03/13/designing-a-restful-api-with-node-and-postgres/#.We7jGGiCw2x).
+
+This read was built using [Github help](https://help.github.com/articles/basic-writing-and-formatting-syntax/).
