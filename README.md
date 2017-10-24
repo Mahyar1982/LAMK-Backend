@@ -10,9 +10,12 @@ Install the Express generator:
 npm install express-generator@4 -g
 ```
 Create a new project and install required dependencies:
+```
 express node-postgres-promises
 cd node-postgres-promises
 npm install
+```
 Test:
+```
 npm start
-
+```
