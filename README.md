@@ -228,4 +228,4 @@ app.use(function(err, req, res, next) {
 
 This app was built using [Designing a RESTful API With Node and Postgres](http://mherman.org/blog/2016/03/13/designing-a-restful-api-with-node-and-postgres/#.We7jGGiCw2x).
 
-This read was built using [Github help](https://help.github.com/articles/basic-writing-and-formatting-syntax/).
+This readme was built using [Github help](https://help.github.com/articles/basic-writing-and-formatting-syntax/).
