@@ -19,6 +19,11 @@ Test:
 ```
 npm start
 ```
+Install pg-promise
+
+```
+npm install pg-promise@5 --save
+```
 ### Deployment
 
 something
