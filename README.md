@@ -76,10 +76,9 @@ CREATE TABLE pups (
 INSERT INTO pups (name, breed, age, sex)
   VALUES ('Tyler', 'Retrieved', 3, 'M');
 ```
-
-```
 ### PSQL
 
+```
 install PSQL, set the password: 123456
 
 In command prompt type: psql -U postgres postgres
@@ -87,7 +86,9 @@ In command prompt type: psql -U postgres postgres
 password: 123456
 
 psql -f puppies.sql
+```
 
+```
 DROP DATABASE
 CREATE DATABASE
 CREATE TABLE
