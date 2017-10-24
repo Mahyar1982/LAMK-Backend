@@ -78,6 +78,14 @@ INSERT INTO pups (name, breed, age, sex)
 ```
 
 ```
+### PSQL
+
+install PSQL, set the password: 123456
+
+In command prompt type: psql -U postgres postgres
+
+password: 123456
+
 psql -f puppies.sql
 
 DROP DATABASE
