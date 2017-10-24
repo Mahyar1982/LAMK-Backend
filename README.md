@@ -85,4 +85,39 @@ CREATE DATABASE
 CREATE TABLE
 INSERT 0 1
 ```
+#### Routes
+
+index.js
+
+```
+var express = require('express');
+var router = express.Router();
+var db = require('../queries');
+router.get('/api/puppies', db.getAllPuppies);
+router.get('/api/puppies/:id', db.getSinglePuppy);
+router.post('/api/puppies', db.createPuppy);
+router.put('/api/puppies/:id', db.updatePuppy);
+router.delete('/api/puppies/:id', db.removePuppy);
+module.exports = router;
+```
+queries.js
+
+```
+function getAllPuppies(req, res, next) {
+  db.any('select * from pups')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL puppies'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+```
 ## Built With
+
+This app was built using [Designing a RESTful API With Node and Postgres](http://mherman.org/blog/2016/03/13/designing-a-restful-api-with-node-and-postgres/#.We7jGGiCw2x).
