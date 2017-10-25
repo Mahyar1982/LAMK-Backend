@@ -78,21 +78,29 @@ INSERT INTO pups (name, breed, age, sex)
 ```
 ### PSQL
 
-```
 install PSQL, set the password: 123456
 
-In command prompt type: psql -U postgres postgres
+In command prompt type: psql -U postgres
 
 password: 123456
-
-psql -f puppies.sql
-```
+then type the below commands:
 
 ```
-DROP DATABASE
-CREATE DATABASE
-CREATE TABLE
-INSERT 0 1
+DROP DATABASE IF EXISTS puppies;
+CREATE DATABASE puppies;
+
+\c puppies;
+
+CREATE TABLE pups (
+  ID SERIAL PRIMARY KEY,
+  name VARCHAR,
+  breed VARCHAR,
+  age INTEGER,
+  sex VARCHAR
+);
+
+INSERT INTO pups (name, breed, age, sex)
+  VALUES ('Tyler', 'Retrieved', 3, 'M');
 ```
 #### Routes
 
