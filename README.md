@@ -32,6 +32,8 @@ npm onstall bluebird@3 --save
 ### Deployment
 
 create a quiries.js
+in 'connectionString', we need to add username and password of psql before localhost. for example(username:postgres, password:123456):
+var connectionString = 'postgres://postgres:123456@localhost:5432/puppies';
 
 ```
 var promise = require('bluebird');
