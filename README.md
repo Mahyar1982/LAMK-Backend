@@ -44,39 +44,55 @@ var options = {
 };
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://localhost:5432/puppies';
+var connectionString = 'postgres://postgres:123456@localhost:5432/lamkrooms';
 var db = pgp(connectionString);
 
 // add query functions
 
+function getAllRooms(req, res, next) {
+  db.any('select * from rooms')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL rooms'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
 module.exports = {
-  getAllPuppies: getAllPuppies,
-  getSinglePuppy: getSinglePuppy,
-  createPuppy: createPuppy,
-  updatePuppy: updatePuppy,
-  removePuppy: removePuppy
+  getAllRooms: getAllRooms
+  // getSingleRoom: getSingleRoom,
+  // createRoom: createRoom,
+  // updateRoom: updateRoom,
+  // removeRoom: removeRoom
 };
+
 ```
 #### Postgress setup
 
-create puppies.sql
+create lamkrooms.sql
 
 ```
-DROP DATABASE IF EXISTS puppies;
-CREATE DATABASE puppies;
+DROP DATABASE IF EXISTS lamkrooms;
+CREATE DATABASE lamkrooms;
 
-\c puppies;
+\c lamkrooms;
 
-CREATE TABLE pups (
+CREATE TABLE rooms (
   ID SERIAL PRIMARY KEY,
-  name VARCHAR,
-  breed VARCHAR,
-  age INTEGER,
-  sex VARCHAR
+  campus VARCHAR,
+  class_number VARCHAR,
+  capacity INTEGER,
+  floor VARCHAR
 );
 
-INSERT INTO pups (name, breed, age, sex)
-  VALUES ('Tyler', 'Retrieved', 3, 'M');
+INSERT INTO rooms (campus, class_number, capacity, floor)
+  VALUES ('niemenkatu', 'b210', 3, 'first');
 ```
 ### PSQL
 
@@ -88,21 +104,21 @@ password: 123456
 then type the below commands:
 
 ```
-DROP DATABASE IF EXISTS puppies;
-CREATE DATABASE puppies;
+DROP DATABASE IF EXISTS lamkrooms;
+CREATE DATABASE lamkrooms;
 
-\c puppies;
+\c lamkrooms;
 
-CREATE TABLE pups (
+CREATE TABLE rooms (
   ID SERIAL PRIMARY KEY,
-  name VARCHAR,
-  breed VARCHAR,
-  age INTEGER,
-  sex VARCHAR
+  campus VARCHAR,
+  class_number VARCHAR,
+  capacity INTEGER,
+  floor VARCHAR
 );
 
-INSERT INTO pups (name, breed, age, sex)
-  VALUES ('Tyler', 'Retrieved', 3, 'M');
+INSERT INTO rooms (campus, class_number, capacity, floor)
+  VALUES ('niemenkatu', 'b210', 3, 'first');
 ```
 #### Routes
 
@@ -111,25 +127,37 @@ index.js
 ```
 var express = require('express');
 var router = express.Router();
+
 var db = require('../queries');
-router.get('/api/puppies', db.getAllPuppies);
-router.get('/api/puppies/:id', db.getSinglePuppy);
-router.post('/api/puppies', db.createPuppy);
-router.put('/api/puppies/:id', db.updatePuppy);
-router.delete('/api/puppies/:id', db.removePuppy);
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+
+router.get('/api/rooms', db.getAllRooms);
+// router.get('/api/rooms/:id', db.getSingleRoom);
+// router.post('/api/rooms', db.createRoom);
+// router.put('/api/rooms/:id', db.updateRoom);
+// router.delete('/api/rooms/:id', db.removeRoom);
+
 module.exports = router;
 ```
+### Running:
+#### Get all rooms:
+
 queries.js
 
 ```
-function getAllPuppies(req, res, next) {
-  db.any('select * from pups')
+function getAllRooms(req, res, next) {
+  db.any('select * from rooms')
     .then(function (data) {
       res.status(200)
         .json({
           status: 'success',
           data: data,
-          message: 'Retrieved ALL puppies'
+          message: 'Retrieved ALL rooms'
         });
     })
     .catch(function (err) {
@@ -137,7 +165,7 @@ function getAllPuppies(req, res, next) {
     });
 }
 ```
-### Running:
+
 #### Get single puppy:
 
 ```
